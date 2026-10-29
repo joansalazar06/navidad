@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Menú Navideño Maná</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap">
@@ -397,10 +397,18 @@ function change(id,d){
   if(q<=0) delete cart[id]; else cart[id]=q;
   save(); render(); if(!document.getElementById('sheet').hidden) renderSheet();
 }
+function scrollMenuIntoView(){
+  const menu=document.getElementById('menu');
+  if(!menu) return;
+  const rect=menu.getBoundingClientRect();
+  if(rect.top > window.innerHeight * 0.2 || rect.top < -window.innerHeight * 0.4){
+    menu.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
 document.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   if(b.dataset.a) change(b.dataset.id, b.dataset.a==='inc'?1:-1);
-  else if(b.dataset.f){ filter=b.dataset.f; render(); }
+  else if(b.dataset.f){ filter=b.dataset.f; render(); requestAnimationFrame(scrollMenuIntoView); }
   else if(b.dataset.who!==undefined){ who=+b.dataset.who; render(); }
   else if(b.dataset.ar){ arSize=b.dataset.ar; render(); }
 });
